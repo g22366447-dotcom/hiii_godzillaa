@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorryy — a very overdue apology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600;1,9..144,700&family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#241019;
+    --bg-alt:#33121d;
+    --rose:#e8a3a3;
+    --rose-dim:#c98a8a;
+    --gold:#d9a441;
+    --cream:#f6ece1;
+    --deep:#7a1f2b;
+    --muted:#c9a9a0;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  button:focus-visible, input:focus-visible, a:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  /* ---------- floating background ---------- */
+  .petals{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .petal{
+    position:absolute;
+    bottom:-10%;
+    opacity:0;
+    animation-name:floatUp;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+  }
+  .petal.rose{color:var(--rose-dim);}
+  .petal.gold{color:var(--gold);}
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0) rotate(0deg); opacity:0;}
+    8%{opacity:.55;}
+    92%{opacity:.4;}
+    100%{transform:translateY(-115vh) translateX(var(--drift,20px)) rotate(360deg); opacity:0;}
+  }
+
+  section, .hero{
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- hero ----------*/
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6rem 1.5rem 4rem;
+    gap:1.1rem;
+  }
+  .eyebrow{
+    font-size:.75rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 .25rem;
+  }
+  #nameInput{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--rose-dim);
+    font-family:'Caveat',cursive;
+    font-size:1.6rem;
+    color:var(--cream);
+    text-align:center;
+    padding:.2rem .4rem;
+    width:min(60vw,240px);
+  }
+  #nameInput::placeholder{color:var(--muted); opacity:.7;}
+  .hint{
+    font-family:'Caveat',cursive;
+    font-size:1rem;
+    color:var(--muted);
+    margin:0;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(2.2rem,6vw,3.6rem);
+    margin:.5rem 0 0;
+  }
+  .scratch-stack{
+    display:flex;
+    flex-direction:column;
+    gap:.35rem;
+    margin:.75rem 0 .5rem;
+  }
+  .attempt{
+    margin:0;
+  }
+  .attempt.cross{
+    font-family:'Caveat',cursive;
+    font-size:1.55rem;
+    color:var(--muted);
+    text-decoration:line-through;
+    text-decoration-color:var(--rose);
+    text-decoration-thickness:2px;
+    opacity:.75;
+  }
+  .attempt.cross:nth-child(1){transform:rotate(-2deg);}
+  .attempt.cross:nth-child(2){transform:rotate(1.5deg);}
+  .attempt.cross:nth-child(3){transform:rotate(-1deg);}
+  .attempt.final{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(2.1rem,5.5vw,3.1rem);
+    color:var(--rose);
+    margin-top:.4rem;
+  }
+  .hero-sub{
+    max-width:34ch;
+    color:var(--muted);
+    font-size:1.02rem;
+    line-height:1.5;
+    margin:.25rem 0 1rem;
+  }
+  .scroll-cue{
+    text-decoration:none;
+    border-bottom:1px dashed var(--gold);
+    color:var(--gold);
+    font-size:.85rem;
+    letter-spacing:.05em;
+    padding-bottom:2px;
+  }
+
+  /* ---------- shared section styling ---------- */
+  .section{
+    max-width:720px;
+    margin:0 auto;
+    padding:5rem 1.5rem;
+    text-align:center;
+  }
+  .section h2{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.7rem,4vw,2.4rem);
+    margin:0 0 2.2rem;
+  }
+  .pill-btn{
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    padding:.65rem 1.5rem;
+    border-radius:999px;
+    font-size:.85rem;
+    letter-spacing:.04em;
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease;
+  }
+  .pill-btn:hover{background:var(--gold); color:var(--bg);}
+  .pill-btn:disabled{opacity:.5; cursor:default; background:transparent; color:var(--gold);}
+
+  /* ---------- card deck ---------- */
+  .stack{
+    position:relative;
+    height:300px;
+    max-width:420px;
+    margin:0 auto 1.6rem;
+  }
+  .card{
+    position:absolute;
+    inset:0;
+    background:var(--bg-alt);
+    border:1px solid rgba(232,163,163,.22);
+    border-radius:var(--radius);
+    padding:2rem 1.8rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:.9rem;
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+    transition:transform .45s ease, opacity .45s ease;
+    cursor:pointer;
+  }
+  .card-label{
+    font-family:'Caveat',cursive;
+    font-size:1.3rem;
+    color:var(--gold);
+  }
+  .card-text{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.25rem;
+    line-height:1.45;
+    margin:0;
+    color:var(--cream);
+  }
+  .card.leaving{
+    transform:translateX(150%) rotate(18deg) !important;
+    opacity:0 !important;
+  }
+  .stack-controls{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:.9rem;
+  }
+  .dots{
+    display:flex;
+    gap:.4rem;
+  }
+  .dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--rose-dim);
+    opacity:.4;
+    transition:opacity .3s ease;
+  }
+  .dot.active{opacity:1; background:var(--rose);}
+
+  /* ---------- jar ---------- */
+  .jar-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.1rem;
+  }
+  .jar{
+    position:relative;
+    width:140px;
+    height:180px;
+    border:3px solid var(--rose-dim);
+    border-radius:12px 12px 30px 30px;
+    background:rgba(255,255,255,.03);
+    overflow:hidden;
+  }
+  .jar-lid{
+    position:absolute;
+    top:-11px;
+    left:50%;
+    transform:translateX(-50%);
+    width:96px;
+    height:14px;
+    background:var(--gold);
+    border-radius:6px;
+  }
+  .jar-fill{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:0%;
+    background:linear-gradient(180deg,var(--rose),var(--deep));
+    transition:height .6s ease;
+  }
+  .jar-hearts{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .mini-heart{
+    position:absolute;
+    bottom:6px;
+    color:var(--rose);
+    font-size:1rem;
+    animation:heartDrop .9s ease forwards;
+  }
+  @keyframes heartDrop{
+    from{transform:translateY(0); opacity:1;}
+    to{transform:translateY(-130px); opacity:0;}
+  }
+  .jar-text{
+    font-family:'Caveat',cursive;
+    font-size:1.35rem;
+    color:var(--cream);
+    max-width:320px;
+    min-height:3.2rem;
+    transition:opacity .35s ease;
+  }
+
+  /* ---------- forgive section ---------- */
+  .forgive-sub{
+    color:var(--muted);
+    margin:-1.2rem 0 2rem;
+    font-size:.95rem;
+  }
+  .forgive-wrap{
+    position:relative;
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .forgive-btn{
+    background:var(--deep);
+    color:var(--cream);
+    border:none;
+    padding:1rem 2.3rem;
+    border-radius:999px;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.15rem;
+    cursor:pointer;
+    transition:transform .22s ease, background .3s ease;
+  }
+  .forgive-btn:hover{background:#8f2632;}
+  .forgive-btn:disabled{cursor:default; background:var(--gold); color:var(--bg);}
+  .final-message{
+    max-width:440px;
+    margin:0 auto;
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    transition:opacity .6s ease, max-height .6s ease, margin .6s ease;
+  }
+  .final-message.show{
+    opacity:1;
+    max-height:500px;
+    margin-top:1.5rem;
+  }
+  .final-message p{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.2rem;
+    line-height:1.55;
+    color:var(--rose);
+    margin:0 0 .8rem;
+  }
+  .final-message .sign-off{
+    font-family:'Caveat',cursive;
+    font-style:normal;
+    font-size:1.6rem;
+    color:var(--gold);
+  }
+
+  footer{
+    text-align:center;
+    padding:3rem 1.5rem 4rem;
+    color:var(--muted);
+    font-size:.8rem;
+    letter-spacing:.04em;
+  }
+
+  /* ---------- confetti ---------- */
+  .confetti-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:50;
+    overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-5%;
+    animation-name:confettiFall;
+    animation-timing-function:ease-in;
+    animation-fill-mode:forwards;
+  }
+  @keyframes confettiFall{
+    to{transform:translateY(112vh) rotate(var(--rot,360deg)); opacity:0;}
+  }
+
+  @media (max-width:480px){
+    .stack{height:340px;}
+    .card{padding:1.6rem 1.3rem;}
+    .jar{width:120px; height:160px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .petal, .confetti-piece{animation:none !important; display:none;}
+    *{transition-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="petals" id="petals"></div>
+
+<section class="hero">
+  <p class="eyebrow">a very overdue apology</p>
+  <input id="nameInput" type="text" placeholder="type her name..." value="Rehanaa" aria-label="Her name">
+  <p class="hint">()</p>
+  <h1>Dear <span id="nameSpan">Rehanaa</span>,</h1>
+  <div class="scratch-stack" aria-hidden="true">
+    <p class="attempt cross">sry</p>
+    <p class="attempt cross">SORRY!!</p>
+    <p class="attempt cross">im sorryy🥲</p>
+  </div>
+  <p class="attempt final">I'm sorry.</p>
+  <p class="hero-sub">yesterday(12 jul 2026) thirijumm theriyamaa overr ahh pesii ungalodaa sweett littlee heartt ahh damange pantaamaa😭😭 </p>
+  <a href="#cards" class="scroll-cue">goo downn and readd chellooo↓</a>
+</section>
+
+<section id="cards" class="section">
+  <p class="eyebrow">01 — onee sorryy pathathuu thann😔😔</p>
+  <h2>manichidugaa,maaf karna,Aasif,kshaminchandi</h2>
+  <div class="stack" id="stack"></div>
+  <div class="stack-controls">
+    <div class="dots" id="dots"></div>
+    <button id="nextCard" class="pill-btn">next →</button>
+  </div>
+</section>
+
+<section class="section">
+  <p class="eyebrow">02 — promisees boxx</p>
+  <h2>the promise jar</h2>
+  <div class="jar-wrap">
+    <div class="jar">
+      <div class="jar-lid"></div>
+      <div class="jar-fill" id="jarFill"></div>
+      <div class="jar-hearts" id="jarHearts"></div>
+    </div>
+    <p class="jar-text" id="jarText">tap the button to add a promise</p>
+    <button id="addPromise" class="pill-btn">add a promise</button>
+  </div>
+</section>
+
+<section class="section">
+  <p class="eyebrow">03 — the only button that matters</p>
+  <h2>Hal yumkinka an tusaamihani?/kya tum mujhe maaf kar</h2>
+  <p class="forgive-sub" id="forgiveSub">tryy panugaa maaa🥺🥺.</p>
+  <div class="forgive-wrap" id="forgiveWrap">
+    <button id="forgiveBtn" class="forgive-btn">forgive me</button>
+  </div>
+  <div class="final-message" id="finalMessage">
+    <p>sorryy perusaa ethuvumm mathidathuu thann ... nan atha mari theribaa panamaa irukenn maaaa manichidugaaa </p>
+    <p class="sign-off">— yourrr Zawjuki/shokar</p>
+  </div>
+</section>
+
+<footer>☺️☺️</footer>
+
+<div class="confetti-layer" id="confetti"></div>
+
+<script>
+  // ---------- floating petals ----------
+  (function(){
+    const container = document.getElementById('petals');
+    const glyphs = ['♡','✿','❀'];
+    const count = 18;
+    for(let i=0;i<count;i++){
+      const span = document.createElement('span');
+      span.className = 'petal ' + (i % 2 === 0 ? 'rose' : 'gold');
+      span.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+      const size = (0.8 + Math.random()*1.2).toFixed(2);
+      const duration = (9 + Math.random()*10).toFixed(1);
+      const delay = (Math.random()*duration*-1).toFixed(1);
+      const drift = Math.round(Math.random()*80 - 40);
+      span.style.left = Math.random()*100 + '%';
+      span.style.fontSize = size + 'rem';
+      span.style.setProperty('--drift', drift + 'px');
+      span.style.animationDuration = duration + 's';
+      span.style.animationDelay = delay + 's';
+      container.appendChild(span);
+    }
+  })();
+
+  // ---------- name input ----------
+  const nameInput = document.getElementById('nameInput');
+  const nameSpan = document.getElementById('nameSpan');
+  nameInput.addEventListener('input', function(e){
+    const val = e.target.value.trim();
+    nameSpan.textContent = val || 'love';
+  });
+
+  // ---------- card deck ----------
+  const cardsData = [
+    { label: "the honest one", text: "nann thapuu thann maa athuu enakuu pesum bothee theriyumm " },
+
+    { label: "the real one", text: "ningaaa hurtt avigaaa nu therijii iruthaa panii irukaa matenn maaaa" },
+    { label: "the promise", text: "inimeee ipadiii panaamataa maaa" },
+    { label: "", text: "" },
+    { label: "the last ", text: "ningaaaa ennaaa ennaa solanumm pandrenn maaa" }
+  ];
+  let current = 0;
+  const stackEl = document.getElementById('stack');
+  const dotsEl = document.getElementById('dots');
+
+  function renderDots(){
+    dotsEl.innerHTML = '';
+    cardsData.forEach(function(_, i){
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === current ? ' active' : '');
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function renderStack(){
+    stackEl.innerHTML = '';
+    for(let offset = 2; offset >= 0; offset--){
+      const idx = (current + offset) % cardsData.length;
+      const item = cardsData[idx];
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.zIndex = String(10 - offset);
+      const rotate = offset === 0 ? 0 : (offset % 2 ? -4 : 4);
+      card.style.transform = 'translateY(' + (offset*10) + 'px) scale(' + (1 - offset*0.05) + ') rotate(' + rotate + 'deg)';
+      card.style.opacity = offset === 0 ? '1' : String(1 - offset*0.28);
+      const labelEl = document.createElement('span');
+      labelEl.className = 'card-label';
+      labelEl.textContent = item.label;
+      const textEl = document.createElement('p');
+      textEl.className = 'card-text';
+      textEl.textContent = item.text;
+      card.appendChild(labelEl);
+      card.appendChild(textEl);
+      if(offset === 0){
+        card.addEventListener('click', nextCard);
+      }
+      stackEl.appendChild(card);
+    }
+    renderDots();
+  }
+
+  function nextCard(){
+    const top = stackEl.lastElementChild;
+    if(!top) return;
+    top.classList.add('leaving');
+    setTimeout(function(){
+      current = (current + 1) % cardsData.length;
+      renderStack();
+    }, 380);
+  }
+  document.getElementById('nextCard').addEventListener('click', nextCard);
+  renderStack();
+
+  // ---------- promise jar ----------
+  const promises = [
+    "inimeee ethaaa ponnaa pathiii pesunalummm nan reactionn kudaa matennn maaa",
+    "im ur husbandd ",
+    "ur myy wifeeeeeeeeee",
+    "nammaaa kulaaa noo othersss ",
+    "U+ME = ♾️"
+  ];
+  let promiseIndex = 0;
+  const jarFill = document.getElementById('jarFill');
+  const jarText = document.getElementById('jarText');
+  const jarHearts = document.getElementById('jarHearts');
+  const addBtn = document.getElementById('addPromise');
+
+  addBtn.addEventListener('click', function(){
+    if(promiseIndex >= promises.length) return;
+    promiseIndex++;
+    jarFill.style.height = (promiseIndex / promises.length * 100) + '%';
+    jarText.style.opacity = '0';
+    setTimeout(function(){
+      jarText.textContent = promises[promiseIndex - 1];
+      jarText.style.opacity = '1';
+    }, 280);
+    const heart = document.createElement('span');
+    heart.textContent = '♥';
+    heart.className = 'mini-heart';
+    heart.style.left = (10 + Math.random()*80) + '%';
+    jarHearts.appendChild(heart);
+    setTimeout(function(){ heart.remove(); }, 1000);
+    if(promiseIndex === promises.length){
+      addBtn.textContent = 'sealed ✓';
+      addBtn.disabled = true;
+    }
+  });
+
+  // ---------- forgive button ----------
+  const forgiveBtn = document.getElementById('forgiveBtn');
+  const forgiveWrap = document.getElementById('forgiveWrap');
+  const forgiveSub = document.getElementById('forgiveSub');
+  const finalMessage = document.getElementById('finalMessage');
+  const taunts = ["nice try.", "almost, nope.", "okay, for real this time."];
+  let dodgeCount = 0;
+  const maxDodge = 2;
+
+  forgiveBtn.addEventListener('pointerenter', function(e){
+    if(e.pointerType !== 'mouse') return;
+    if(dodgeCount >= maxDodge) return;
+    const wrapRect = forgiveWrap.getBoundingClientRect();
+    const btnRect = forgiveBtn.getBoundingClientRect();
+    const maxX = Math.max((wrapRect.width - btnRect.width) / 2 - 10, 20);
+    const maxY = 18;
+    const x = (Math.random()*2 - 1) * maxX;
+    const y = (Math.random()*2 - 1) * maxY;
+    forgiveBtn.style.transform = 'translate(' + x.toFixed(0) + 'px,' + y.toFixed(0) + 'px)';
+    forgiveSub.textContent = taunts[dodgeCount];
+    dodgeCount++;
+  });
+
+  forgiveBtn.addEventListener('click', function(){
+    forgiveBtn.style.transform = 'translate(0,0)';
+    forgiveBtn.textContent = 'forgiven ❤';
+    forgiveBtn.disabled = true;
+    forgiveSub.textContent = 'thank you. I mean every word.';
+    finalMessage.classList.add('show');
+    burstConfetti();
+    setTimeout(function(){
+      finalMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
+  });
+
+  function burstConfetti(){
+    const layer = document.getElementById('confetti');
+    const pieces = ['♥','✿','❀','♡'];
+    for(let i = 0; i < 40; i++){
+      const el = document.createElement('span');
+      el.className = 'confetti-piece';
+      el.textContent = pieces[Math.floor(Math.random()*pieces.length)];
+      el.style.left = Math.random()*100 + '%';
+      el.style.fontSize = (0.8 + Math.random()*1.2) + 'rem';
+      el.style.setProperty('--rot', (Math.random()*720 - 360) + 'deg');
+      el.style.animationDuration = (2 + Math.random()*2) + 's';
+      el.style.color = Math.random() > 0.5 ? 'var(--rose)' : 'var(--gold)';
+      layer.appendChild(el);
+      setTimeout(function(){ el.remove(); }, 4500);
+    }
+  }
+</script>
+</body>
+</html>
